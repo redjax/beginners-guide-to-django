@@ -21,6 +21,8 @@ from boards import views  # added by me
 
 urlpatterns = [
     # changed "path" to "url" below
-    url('admin/', admin.site.urls),
     url(r'^$', views.home, name='home'),
+    url(r'^boards/(?P<pk>\d+)/$', views.board_topics, name='board_topics'),
+    url(r'^boards/(?P<pk>\d+)/new/$', views.new_topic, name='new_topic'),
+    url('admin/', admin.site.urls),
 ]
