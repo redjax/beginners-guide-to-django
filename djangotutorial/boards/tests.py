@@ -14,6 +14,7 @@ from django.test import TestCase
 from django.urls import resolve  # added by me
 from django.urls import reverse  # added by me
 
+from .forms import NewTopicForm  # added by me
 from .models import Board, Post, Topic  # added by me
 from .views import board_topics  # added by me
 from .views import home  # added by me
@@ -150,3 +151,16 @@ class NewTopicTests(TestCase):
         board_topics_url = reverse('board_topics', kwargs={'pk': 1})
         response = self.client.get(new_topic_url)
         self.assertContains(response, 'href="{0}"'.format(board_topics_url))
+
+    def test_contains_form(self):
+        url = reverse('new_topic', kwargs={'pk': 1})
+        response = self.client.get(url)
+        form = response.context.get('form')
+        self.assertIsInstance(form, NewTopicForm)
+
+    def test_new_topic_invalid_post_data(self):
+        url = reverse('new_topic', kwargs={'pk': 1})
+        response = self.client.post(url, {})
+        form = response.context.get('form')
+        self.assertEquals(response.status_code, 200)
+        self.assertTrue(form.errors)
