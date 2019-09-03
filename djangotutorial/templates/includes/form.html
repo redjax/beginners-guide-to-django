@@ -21,7 +21,8 @@
 
     {% if field.help_text %}
       <small class="form-text text-muted">
-        {{ field.help_text }}
+        <!-- .help_text|safe << indicates contained code is safe to render -->
+        {{ field.help_text|safe }}
       </small>
     {% endif %}
   </div>
